@@ -1,57 +1,58 @@
-z`"use client";
+"use client";
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import {
+	motion,
+	AnimatePresence,
+	useScroll,
+	useTransform,
+} from "framer-motion";
 import Preloader from "./components/Preloader";
 
 export default function Home() {
-  const [copied, setCopied] = useState(false);
-  const [showPreloader, setShowPreloader] = useState(true);
-  const [showHerotext, setShowHerotext] = useState(false);
-  const caAddress = "0x1234567890abcdef1234567890abcdef12345678";
+	const [copied, setCopied] = useState(false);
+	const [showPreloader, setShowPreloader] = useState(true);
+	const [showHerotext, setShowHerotext] = useState(false);
+	const caAddress = "0x1234567890abcdef1234567890abcdef12345678";
 
-  // Control Panel for Hero Text Position (Finalized)
-  const heroTextPos = { x: -183, y: -161, scale: 2 }; 
-  const [isFloating, setIsFloating] = useState(false);
-  
-  // Flag Animation Controls (Finalized)
-  const flagParams = {
-    duration: 5,
-    rotateZ: 1.5,
-    rotateY: 4,
-    skewX: 0.5,
-  };
+	// Control Panel for Hero Text Position (Finalized)
+	const heroTextPos = { x: -183, y: -161, scale: 2 };
+	const [isFloating, setIsFloating] = useState(false);
 
+	// Flag Animation Controls (Finalized)
+	const flagParams = {
+		duration: 5,
+		rotateZ: 1.5,
+		rotateY: 4,
+		skewX: 0.5,
+	};
 
+	// Scroll Animation Hooks - Removed
 
+	const handlePreloaderComplete = useCallback(() => {
+		setShowPreloader(false);
+		// Trigger herotext animation immediately after preloader
+		setShowHerotext(true);
+	}, []);
 
-  // Scroll Animation Hooks - Removed
+	const handleCopy = async () => {
+		try {
+			await navigator.clipboard.writeText(caAddress);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch (err) {
+			console.error("Failed to copy:", err);
+		}
+	};
 
+	const socialLinks = [
+		{ name: "X", icon: "/icons/x.png", url: "https://x.com" },
+		{ name: "Community", icon: "/icons/community.png", url: "https://t.me" },
+		{ name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
+	];
 
-  const handlePreloaderComplete = useCallback(() => {
-    setShowPreloader(false);
-    // Trigger herotext animation immediately after preloader
-    setShowHerotext(true);
-  }, []);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(caAddress);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
-  };
-
-  const socialLinks = [
-    { name: "X", icon: "/icons/x.png", url: "https://x.com" },
-    { name: "Community", icon: "/icons/community.png", url: "https://t.me" },
-    { name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
-  ];
-
-  return (
+	return (
 		<>
 			<div className="bg-black text-white min-h-screen font-sans">
 				{/* Preloader */}
@@ -257,84 +258,19 @@ export default function Home() {
 					</div>
 				</section>
 
-				{/* SECTION 2: ABOUT & FOOTER */}
-				<section className="about-section relative min-h-screen flex flex-col items-center justify-center py-20 overflow-hidden">
-					{/* About Video Background */}
-					<div className="absolute inset-0 w-full h-full z-0">
-						<video
-							className="w-full h-full object-cover"
-							autoPlay
-							loop
-							muted
-							playsInline
-							style={{
-								maskImage: "linear-gradient(to bottom, transparent, black 20%)",
-								WebkitMaskImage:
-									"linear-gradient(to bottom, transparent, black 20%)",
-							}}>
-							<source src="/aboutt.mp4" type="video/mp4" />
-						</video>
-						{/* Top Gradient Overlay Removed - Using Mask Image instead */}
-						<div className="absolute inset-0 bg-black/30 pointer-events-none" />
-					</div>
-
-					{/* About Content */}
+				{/* SECTION 2: FOOTER */}
+				<section className="footer-section relative h-[20vh] flex flex-col items-center justify-center py-8 overflow-hidden bg-black">
+					{/* FOOTER */}
 					<div
 						className="
-              relative z-10
-              p-12
-              bg-white/10 backdrop-blur-xl
-              border border-white/20
-              rounded-[32px]
-              shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.5)]
-              text-white text-center
-              mb-6
-              flex flex-col justify-center
-            "
-						style={{
-							width: "740px",
-							minHeight: "50px",
-							transform: "translate(0px, 190px) scale(0.50)",
-						}}>
-						<h2 className="text-4xl font-bold mb-6 tracking-tight drop-shadow-md">
-							ABOUT CROAK
-						</h2>
-						<p className="text-2xl leading-relaxed text-white/90 font-light max-w-2xl mx-auto italic">
-							"The legendary blockchain frog. Hop into the revolution!"
-						</p>
-
-						<div className="mt-8 flex justify-center gap-4">
-							<button
-								className="
-                  px-8 py-4 rounded-full 
-                  bg-white text-black 
-                  hover:bg-gray-200 
-                  transition-all duration-300 ease-out
-                  hover:scale-105
-                  font-bold tracking-widest
-                  shadow-[0_0_20px_rgba(255,255,255,0.3)]
-               ">
-								BUY CROAK
-							</button>
-						</div>
-					</div>
-
-					{/* FOOTER (Inside About Section) */}
-					<div
-						className="
-              relative z-10
-              px-8 py-4
-              bg-white/5 backdrop-blur-lg
-              border border-white/10
-              rounded-full
-              flex flex-col md:flex-row items-center justify-between
-              text-white/60 text-sm font-mono
-            "
-						style={{
-							width: "617px",
-							minHeight: "100px",
-							transform: "translate(0px, 95px) scale(0.60)",
-						}}>
+						relative z-10
+						px-6 py-3
+						bg-white/5 backdrop-blur-lg
+						border border-white/10
+						rounded-full
+						flex items-center justify-between gap-8
+						text-white/60 text-sm font-mono
+					">
 						<div className="mb-2 md:mb-0">&copy; 2026 CROAK.</div>
 						<div className="flex gap-6 items-center">
 							{[
