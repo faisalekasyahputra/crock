@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Hero Section Styles */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 1;
+  }
+
+  .hero-content h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    margin: 0;
+  }
+
+  /* ====================================
+     GLASSMORPHISM 3D SKEUOMORPHIC BUTTON
+     ==================================== */
+
+  .copy-ca-button {
+    --btn-primary: #7CB342;
+    --btn-primary-light: #9CCC65;
+    --btn-primary-dark: #558B2F;
+    --btn-glow: rgba(124, 179, 66, 0.6);
+    --btn-shadow: rgba(0, 0, 0, 0.4);
+    
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease;
+  }
+
+  .copy-ca-button:active {
+    transform: translateY(4px);
+  }
+
+  .button-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Glassmorphism background */
+    background: linear-gradient(
+      135deg,
+      rgba(124, 179, 66, 0.9) 0%,
+      rgba(85, 139, 47, 0.95) 50%,
+      rgba(104, 159, 56, 0.9) 100%
+    );
+    
+    /* 3D depth effect */
+    border-radius: 16px;
+    box-shadow:
+      /* Outer glow */
+      0 0 20px var(--btn-glow),
+      /* Top highlight - plastic shine */
+      inset 0 2px 4px rgba(255, 255, 255, 0.4),
+      /* Bottom inner shadow - depth */
+      inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+      /* 3D elevation shadow */
+      0 8px 0 var(--btn-primary-dark),
+      0 10px 20px var(--btn-shadow),
+      0 15px 40px rgba(0, 0, 0, 0.3);
+    
+    /* Frosted glass border */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    
+    /* Subtle backdrop blur for glass effect */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    transition: all 0.15s ease;
+  }
+
+  .copy-ca-button:hover .button-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(156, 204, 101, 0.95) 0%,
+      rgba(124, 179, 66, 1) 50%,
+      rgba(139, 195, 74, 0.95) 100%
+    );
+    box-shadow:
+      0 0 30px var(--btn-glow),
+      0 0 60px rgba(124, 179, 66, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 8px rgba(0, 0, 0, 0.15),
+      0 8px 0 var(--btn-primary-dark),
+      0 12px 25px var(--btn-shadow),
+      0 18px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .copy-ca-button:active .button-inner {
+    box-shadow:
+      0 0 15px var(--btn-glow),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+      0 2px 0 var(--btn-primary-dark),
+      0 4px 10px var(--btn-shadow);
+  }
+
+  /* Shine reflection effect */
+  .button-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    border-radius: 16px 16px 50% 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .copy-ca-button:active .button-shine {
+    opacity: 0.5;
+  }
+
+  .button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+  }
+
+  .button-text {
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Copied state */
+  .copy-ca-button.copied .button-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(76, 175, 80, 0.95) 0%,
+      rgba(56, 142, 60, 1) 50%,
+      rgba(67, 160, 71, 0.95) 100%
+    );
+  }
+
+  /* CA Preview text */
+  .ca-preview {
+    margin-top: 1.5rem;
+    padding: 12px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .button-inner {
+      padding: 14px 24px;
+      font-size: 0.95rem;
+      gap: 10px;
+    }
+    
+    .ca-preview {
+      font-size: 0.85rem;
+      padding: 10px 18px;
+    }
+  }
+}
