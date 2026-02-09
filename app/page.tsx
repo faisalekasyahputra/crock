@@ -1,4 +1,4 @@
-"use client";
+z`"use client";
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
@@ -52,175 +52,187 @@ export default function Home() {
   ];
 
   return (
-    <>
-      <div className="bg-black text-white min-h-screen font-sans">
-      
-        {/* Preloader */}
-        <AnimatePresence mode="wait">
-          {showPreloader && (
-            <Preloader onComplete={handlePreloaderComplete} />
-          )}
-        </AnimatePresence>
+		<>
+			<div className="bg-black text-white min-h-screen font-sans">
+				{/* Preloader */}
+				<AnimatePresence mode="wait">
+					{showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
+				</AnimatePresence>
 
-        
+				{/* SECTION 1: HERO */}
+				<section className="hero-section relative h-screen overflow-hidden flex items-center justify-center">
+					{/* Hero Video Background */}
+					<div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+						<motion.video
+							className="w-full h-full object-cover"
+							autoPlay
+							loop
+							muted
+							playsInline
+							initial={{ scale: 1.25 }}
+							animate={{ scale: showPreloader ? 1.25 : 1 }}
+							transition={{ duration: 0.8, ease: "circOut" }}
+							style={{
+								x: "-50%",
+								y: "-50%",
+								position: "absolute",
+								top: "50%",
+								left: "50%",
+								maskImage: "linear-gradient(to bottom, black 85%, transparent)",
+								WebkitMaskImage:
+									"linear-gradient(to bottom, black 85%, transparent)",
+							}} // Centering logic + Gradient Mask
+						>
+							<source src="/hero.mp4" type="video/mp4" />
+						</motion.video>
 
+						{/* Gradient Overlay Removed - Using Mask Image instead */}
+					</div>
 
-      
-      {/* SECTION 1: HERO */}
-        <section 
-          className="hero-section relative h-screen overflow-hidden flex items-center justify-center"
-        >
-          {/* Hero Video Background */}
-          <div 
-            className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-          >
-            <motion.video 
-              className="w-full h-full object-cover" 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              initial={{ scale: 1.25 }}
-              animate={{ scale: showPreloader ? 1.25 : 1 }} 
-              transition={{ duration: 0.8, ease: "circOut" }}
-              style={{ 
-                x: "-50%", 
-                y: "-50%", 
-                position: "absolute", 
-                top: "50%", 
-                left: "50%",
-                maskImage: "linear-gradient(to bottom, black 85%, transparent)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent)"
-              }} // Centering logic + Gradient Mask
-            >
-              <source src="/hero.mp4" type="video/mp4" />
-            </motion.video>
-            
-            {/* Gradient Overlay Removed - Using Mask Image instead */}
-          </div>
+					{/* Hero Content */}
+					<div className="hero-content relative z-10 w-full h-full flex flex-col items-center justify-center pointer-events-none">
+						<div
+							className="relative pointer-events-auto"
+							style={{ transform: "translate(-325px, 155px)" }}>
+							{/* Hero Text Logo */}
+							<AnimatePresence>
+								{showHerotext && (
+									<motion.div
+										className="absolute flex justify-center pointer-events-none"
+										style={{
+											top: heroTextPos.y,
+											left: heroTextPos.x,
+											width: "600px",
+											height: "200px",
+											transformOrigin: "center center",
+										}}
+										initial={{ scale: 6, opacity: 0 }}
+										animate={
+											isFloating
+												? {
+														scale: heroTextPos.scale,
+														opacity: 1,
+														rotateZ: [
+															0,
+															-flagParams.rotateZ,
+															flagParams.rotateZ,
+															-flagParams.rotateZ / 2,
+															flagParams.rotateZ / 2,
+															0,
+														],
+														rotateY: [
+															0,
+															flagParams.rotateY,
+															-flagParams.rotateY,
+															0,
+														],
+														skewX: [0, flagParams.skewX, -flagParams.skewX, 0],
+													}
+												: {
+														scale: heroTextPos.scale,
+														opacity: 1,
+													}
+										}
+										transition={
+											isFloating
+												? {
+														duration: flagParams.duration,
+														ease: "easeInOut",
+														repeat: Infinity,
+														repeatType: "mirror",
+													}
+												: {
+														duration: 0.8,
+														type: "spring",
+														bounce: 0.3,
+													}
+										}
+										onAnimationComplete={() => setIsFloating(true)}>
+										<Image
+											src="/herotext.png"
+											alt="Hero Text"
+											fill
+											className="object-contain"
+											style={{ imageRendering: "auto" }}
+											quality={100}
+											priority
+											unoptimized
+										/>
+									</motion.div>
+								)}
+							</AnimatePresence>
 
-          {/* Hero Content */}
-          <div 
-            className="hero-content relative z-10 w-full h-full flex flex-col items-center justify-center pointer-events-none"
-          >
-              <div className="relative pointer-events-auto" style={{ transform: "translate(-325px, 155px)" }}>
-                  {/* Hero Text Logo */}
-                  <AnimatePresence>
-                    {showHerotext && (
-                      <motion.div 
-                        className="absolute flex justify-center pointer-events-none"
-                        style={{
-                          top: heroTextPos.y, 
-                          left: heroTextPos.x, 
-                          width: '600px', 
-                          height: '200px',
-                          transformOrigin: "center center"
-                        }}
-                        initial={{ scale: 6, opacity: 0 }} 
-                        animate={isFloating ? {
-                          scale: heroTextPos.scale,
-                          opacity: 1,
-                          rotateZ: [0, -flagParams.rotateZ, flagParams.rotateZ, -flagParams.rotateZ/2, flagParams.rotateZ/2, 0], 
-                          rotateY: [0, flagParams.rotateY, -flagParams.rotateY, 0], 
-                          skewX: [0, flagParams.skewX, -flagParams.skewX, 0], 
-                        } : { 
-                          scale: heroTextPos.scale, 
-                          opacity: 1 
-                        }}
-                        transition={isFloating ? {
-                          duration: flagParams.duration,
-                          ease: "easeInOut",
-                          repeat: Infinity,
-                          repeatType: "mirror"
-                        } : { 
-                          duration: 0.8,
-                          type: "spring",
-                          bounce: 0.3
-                        }}
-                        onAnimationComplete={() => setIsFloating(true)}
-                      >
-                        <Image
-                          src="/herotext.png"
-                          alt="Hero Text"
-                          fill
-                          className="object-contain"
-                          style={{ imageRendering: 'auto' }}
-                          quality={100}
-                          priority
-                          unoptimized
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* CA Address */}
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                    className="
-                      mb-4 px-5 py-2
-                      font-mono text-xs tracking-wider
-                      text-white/80
-                      bg-black/30 backdrop-blur-sm
-                      rounded-full
-                      border border-white/10
-                      mx-auto w-fit
-                    "
-                  >
-                    {caAddress.slice(0, 6)}...{caAddress.slice(-4)}
-                  </motion.p>
-
-                  {/* Copy CA Button */}
-                  <motion.button
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    className={`
-                      px-8 py-4 rounded-full
+							{/* CA Address with Copy Button - Combined */}
+							<motion.button
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.5, duration: 0.5 }}
+								className={`
+                      px-5 py-3 rounded-full
                       bg-white/10 backdrop-blur-md
                       border border-white/20
                       shadow-[inset_0_1px_2px_rgba(255,255,255,0.3),0_4px_6px_rgba(0,0,0,0.4)]
-                      text-white font-mono tracking-widest uppercase text-sm
+                      font-mono text-sm tracking-wider
+                      text-white/90
                       transition-all duration-300 ease-out
                       hover:scale-[1.02] hover:bg-white/15 hover:shadow-[inset_0_1px_3px_rgba(255,255,255,0.35),0_5px_8px_rgba(0,0,0,0.45)]
                       active:scale-[0.98] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]
                       flex items-center gap-3
                       cursor-pointer
                       mx-auto
-                      ${copied ? "bg-green-500/20 border-green-400/30" : ""}
+                      ${copied ? "bg-green-500/20 border-green-400/30 text-green-300" : ""}
                     `}
-                    onClick={handleCopy}
-                  >
-                    <span className="flex items-center justify-center">
-                      {copied ? (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      ) : (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      )}
-                    </span>
-                    <span>{copied ? "COPIED!" : "COPY CA ADDRESS"}</span>
-                  </motion.button>
+								onClick={handleCopy}>
+								<span>
+									{copied
+										? "COPIED!"
+										: `${caAddress.slice(0, 6)}...${caAddress.slice(-4)}`}
+								</span>
+								<span className="flex items-center justify-center">
+									{copied ? (
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											strokeWidth="3">
+											<polyline points="20 6 9 17 4 12"></polyline>
+										</svg>
+									) : (
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											strokeWidth="2">
+											<rect
+												x="9"
+												y="9"
+												width="13"
+												height="13"
+												rx="2"
+												ry="2"></rect>
+											<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+										</svg>
+									)}
+								</span>
+							</motion.button>
 
-                  {/* Social Media Icons */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.5 }}
-                    className="flex items-center justify-center gap-4 mt-6 w-full"
-                  >
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.name}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="
+							{/* Social Media Icons */}
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.7, duration: 0.5 }}
+								className="flex items-center justify-center gap-4 mt-6 w-full">
+								{socialLinks.map((social) => (
+									<a
+										key={social.name}
+										href={social.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="
                           w-12 h-12 rounded-full
                           bg-white/10 backdrop-blur-md
                           border border-white/20
@@ -230,47 +242,45 @@ export default function Home() {
                           hover:scale-[1.05] hover:bg-white/15
                           active:scale-[0.98]
                         "
-                        title={social.name}
-                      >
-                        <Image
-                          src={social.icon}
-                          alt={social.name}
-                          width={24}
-                          height={24}
-                          className="brightness-0 invert"
-                        />
-                      </a>
-                    ))}
-                  </motion.div>
-              </div>
-          </div>
-        </section>
+										title={social.name}>
+										<Image
+											src={social.icon}
+											alt={social.name}
+											width={24}
+											height={24}
+											className="brightness-0 invert"
+										/>
+									</a>
+								))}
+							</motion.div>
+						</div>
+					</div>
+				</section>
 
+				{/* SECTION 2: ABOUT & FOOTER */}
+				<section className="about-section relative min-h-screen flex flex-col items-center justify-center py-20 overflow-hidden">
+					{/* About Video Background */}
+					<div className="absolute inset-0 w-full h-full z-0">
+						<video
+							className="w-full h-full object-cover"
+							autoPlay
+							loop
+							muted
+							playsInline
+							style={{
+								maskImage: "linear-gradient(to bottom, transparent, black 20%)",
+								WebkitMaskImage:
+									"linear-gradient(to bottom, transparent, black 20%)",
+							}}>
+							<source src="/aboutt.mp4" type="video/mp4" />
+						</video>
+						{/* Top Gradient Overlay Removed - Using Mask Image instead */}
+						<div className="absolute inset-0 bg-black/30 pointer-events-none" />
+					</div>
 
-        {/* SECTION 2: ABOUT & FOOTER */}
-        <section className="about-section relative min-h-screen flex flex-col items-center justify-center py-20 overflow-hidden">
-          {/* About Video Background */}
-          <div className="absolute inset-0 w-full h-full z-0">
-             <video 
-              className="w-full h-full object-cover" 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              style={{ 
-                maskImage: "linear-gradient(to bottom, transparent, black 20%)",
-                WebkitMaskImage: "linear-gradient(to bottom, transparent, black 20%)"
-              }}
-            >
-              <source src="/aboutt.mp4" type="video/mp4" />
-            </video>
-            {/* Top Gradient Overlay Removed - Using Mask Image instead */}
-            <div className="absolute inset-0 bg-black/30 pointer-events-none" />
-          </div>
-
-          {/* About Content */}
-          <div 
-            className="
+					{/* About Content */}
+					<div
+						className="
               relative z-10
               p-12
               bg-white/10 backdrop-blur-xl
@@ -281,20 +291,21 @@ export default function Home() {
               mb-6
               flex flex-col justify-center
             "
-            style={{
-              width: "740px",
-              minHeight: "50px",
-              transform: "translate(0px, 190px) scale(0.50)",
-            }}
+						style={{
+							width: "740px",
+							minHeight: "50px",
+							transform: "translate(0px, 190px) scale(0.50)",
+						}}>
+						<h2 className="text-4xl font-bold mb-6 tracking-tight drop-shadow-md">
+							ABOUT CROAK
+						</h2>
+						<p className="text-2xl leading-relaxed text-white/90 font-light max-w-2xl mx-auto italic">
+							"The legendary blockchain frog. Hop into the revolution!"
+						</p>
 
-          >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight drop-shadow-md">ABOUT CROAK</h2>
-            <p className="text-2xl leading-relaxed text-white/90 font-light max-w-2xl mx-auto italic">
-              "The legendary blockchain frog. Hop into the revolution!"
-            </p>
-            
-            <div className="mt-8 flex justify-center gap-4">
-               <button className="
+						<div className="mt-8 flex justify-center gap-4">
+							<button
+								className="
                   px-8 py-4 rounded-full 
                   bg-white text-black 
                   hover:bg-gray-200 
@@ -303,14 +314,14 @@ export default function Home() {
                   font-bold tracking-widest
                   shadow-[0_0_20px_rgba(255,255,255,0.3)]
                ">
-                  BUY CROAK
-               </button>
-            </div>
-          </div>
+								BUY CROAK
+							</button>
+						</div>
+					</div>
 
-          {/* FOOTER (Inside About Section) */}
-          <div 
-            className="
+					{/* FOOTER (Inside About Section) */}
+					<div
+						className="
               relative z-10
               px-8 py-4
               bg-white/5 backdrop-blur-lg
@@ -319,47 +330,47 @@ export default function Home() {
               flex flex-col md:flex-row items-center justify-between
               text-white/60 text-sm font-mono
             "
-            style={{
-              width: "617px",
-              minHeight: "100px",
-              transform: "translate(0px, 95px) scale(0.60)",
-            }}
+						style={{
+							width: "617px",
+							minHeight: "100px",
+							transform: "translate(0px, 95px) scale(0.60)",
+						}}>
+						<div className="mb-2 md:mb-0">&copy; 2026 CROAK.</div>
+						<div className="flex gap-6 items-center">
+							{[
+								{ name: "X", icon: "/icons/x.png", url: "https://x.com" },
+								{
+									name: "Community",
+									icon: "/icons/community.png",
+									url: "https://t.me",
+								},
+								{
+									name: "Dex",
+									icon: "/icons/dex.png",
+									url: "https://dexscreener.com",
+								},
+							].map((social) => (
+								<a
+									key={social.name}
+									href={social.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="hover:scale-110 transition-transform duration-300">
+									<Image
+										src={social.icon}
+										alt={social.name}
+										width={24}
+										height={24}
+										className="brightness-0 invert opacity-80 hover:opacity-100"
+									/>
+								</a>
+							))}
+						</div>
+					</div>
+				</section>
 
-          >
-            <div className="mb-2 md:mb-0">
-              &copy; 2026 CROAK.
-            </div>
-            <div className="flex gap-6 items-center">
-              {[
-                { name: "X", icon: "/icons/x.png", url: "https://x.com" },
-                { name: "Community", icon: "/icons/community.png", url: "https://t.me" },
-                { name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
-              ].map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:scale-110 transition-transform duration-300"
-                >
-                  <Image
-                    src={social.icon}
-                    alt={social.name}
-                    width={24}
-                    height={24}
-                    className="brightness-0 invert opacity-80 hover:opacity-100"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-        {/* Removed Separate Footer Section */}
-
-        
-      </div>
-    </>
-  );
+				{/* Removed Separate Footer Section */}
+			</div>
+		</>
+	);
 }

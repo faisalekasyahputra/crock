@@ -1,0 +1,2 @@
+[    4564ms] [WARNING] Image with src "/herotext.png" is using quality "100" which is not configured in images.qualities [75]. Please update your config to [100, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3001/_next/static/chunks/37058_next_dist_909d9281._.js:2297
