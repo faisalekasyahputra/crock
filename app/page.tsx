@@ -94,7 +94,7 @@ export default function Home() {
 					<div className="hero-content relative z-10 w-full h-full flex flex-col items-center justify-center pointer-events-none">
 						<div
 							className="relative pointer-events-auto"
-							style={{ transform: "translate(-325px, 155px)" }}>
+							style={{ transform: "translate(-325px, 50px)" }}>
 							{/* Hero Text Logo */}
 							<AnimatePresence>
 								{showHerotext && (
