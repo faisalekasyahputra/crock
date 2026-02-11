@@ -47,7 +47,7 @@ export default function Home() {
 		};
 
 		const socialLinks = [
-			{ name: "X", icon: "/icons/x.png", url: "https://x.com" },
+			{ name: "X", icon: "/icons/x.png", url: "https://x.com/CroakMode" },
 			{ name: "Community", icon: "/icons/community.png", url: "https://t.me" },
 			{ name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
 		];
