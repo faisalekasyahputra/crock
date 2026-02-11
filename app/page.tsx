@@ -39,15 +39,31 @@ export default function Home() {
 			await navigator.clipboard.writeText(caAddress);
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
+			// Open buy link (pump.fun) when CA is available
+			const buyUrl = `https://pump.fun/coin/${caAddress}`;
+			window.open(buyUrl, "_blank");
 		} catch (err) {
 			console.error("Failed to copy:", err);
 		}
 	};
 
+	// All links dynamic from Supabase config
 	const socialLinks = [
-		{ name: "X", icon: "/icons/x.png", url: "https://x.com" },
-		{ name: "Community", icon: "/icons/community.png", url: "https://t.me" },
-		{ name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
+		{
+			name: "X",
+			icon: "/icons/x.png",
+			url: config?.twitter_url || "#",
+		},
+		{
+			name: "Community",
+			icon: "/icons/community.png",
+			url: config?.telegram_url || config?.community_url || "#",
+		},
+		{
+			name: "Dex",
+			icon: "/icons/dex.png",
+			url: config?.dexscreener_url || "#",
+		},
 	];
 
 	return (
