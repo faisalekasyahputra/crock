@@ -69,8 +69,8 @@ export default function Home() {
 							muted
 							preload="auto"
 							playsInline
-							initial={{ scale: 1.25 }}
-							animate={{ scale: showPreloader ? 1.25 : 1 }}
+							initial={{ scale: 1 }}
+							animate={{ scale: 1 }}
 							transition={{ duration: 0.8, ease: "circOut" }}
 							style={{
 								x: "-50%",
@@ -82,7 +82,7 @@ export default function Home() {
 								WebkitMaskImage:
 									"linear-gradient(to bottom, black 85%, transparent)",
 							}}>
-							<source src="/hero.mp4" type="video/mp4" />
+							<source src="/main.mp4" type="video/mp4" />
 						</motion.video>
 					</div>
 
@@ -218,29 +218,6 @@ export default function Home() {
 									) : null}
 								</span>
 							</motion.button>
-
-							{/* Buy Button */}
-							{buyUrl && (
-								<motion.a
-									href={buyUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ delay: 0.6, duration: 0.5 }}
-									className="
-										mt-4 px-8 py-3 rounded-full
-										bg-white text-black
-										hover:bg-gray-200
-										transition-all duration-300 ease-out
-										hover:scale-105
-										font-bold tracking-widest text-sm
-										shadow-[0_0_20px_rgba(255,255,255,0.3)]
-										block text-center mx-auto
-									">
-									BUY CROAK
-								</motion.a>
-							)}
 
 							{/* Social Media Icons */}
 							<motion.div
