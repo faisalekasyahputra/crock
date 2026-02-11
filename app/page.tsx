@@ -44,50 +44,10 @@ export default function Home() {
 		}
 	};
 
-	// Buy URL logic
-	const getBuyUrl = () => {
-		if (!config?.buy_platform || !caAddress) return null;
-		if (config.buy_platform === "pumpfun") {
-			return `https://pump.fun/coin/${caAddress}`;
-		} else if (config.buy_platform === "jup") {
-			return `https://jup.ag/swap/SOL-${caAddress}`;
-		}
-		return null;
-	};
-
-	// Chart URL logic
-	const chartUrl = config?.dexscreener_url || null;
-	const buyUrl = getBuyUrl();
-
-	// Social links from config
 	const socialLinks = [
-		...(config?.twitter_url
-			? [{ name: "X", icon: "/icons/x.png", url: config.twitter_url }]
-			: [{ name: "X", icon: "/icons/x.png", url: "https://x.com" }]),
-		...(config?.telegram_url || config?.community_url
-			? [
-					{
-						name: "Community",
-						icon: "/icons/community.png",
-						url: config.telegram_url || config.community_url || "https://t.me",
-					},
-				]
-			: [
-					{
-						name: "Community",
-						icon: "/icons/community.png",
-						url: "https://t.me",
-					},
-				]),
-		...(chartUrl
-			? [{ name: "Dex", icon: "/icons/dex.png", url: chartUrl }]
-			: [
-					{
-						name: "Dex",
-						icon: "/icons/dex.png",
-						url: "https://dexscreener.com",
-					},
-				]),
+		{ name: "X", icon: "/icons/x.png", url: "https://x.com" },
+		{ name: "Community", icon: "/icons/community.png", url: "https://t.me" },
+		{ name: "Dex", icon: "/icons/dex.png", url: "https://dexscreener.com" },
 	];
 
 	return (
